@@ -1,33 +1,51 @@
+export interface User {
+  name: string;
+  email: String;
+  image: string;
+  emailVerified?: Date;
+}
+
 export class User {
-  constructor (name, email, image, emailVerified) {
-    if (name) { this.name = name }
-    if (email) { this.email = email }
-    if (image) { this.image = image }
+  constructor(
+    name: string,
+    email: String,
+    image: string,
+    emailVerified?: Date
+  ) {
+    if (name) {
+      this.name = name;
+    }
+    if (email) {
+      this.email = email;
+    }
+    if (image) {
+      this.image = image;
+    }
     if (emailVerified) {
-      const currentDate = new Date()
-      this.emailVerified = currentDate
+      const currentDate = new Date();
+      this.emailVerified = currentDate;
     }
   }
 }
 
 export const UserSchema = {
-  name: 'User',
+  name: "User",
   target: User,
   columns: {
     id: {
       // This property has `objectId: true` instead of `type: int` in MongoDB
       primary: true,
-      type: 'int',
+      type: "int",
       generated: true
     },
     name: {
-      type: 'varchar',
+      type: "varchar",
       nullable: true
     },
     email: {
       // This is inherited from the one in the OAuth provider profile on
       // initial sign in, if one is specified in that profile.
-      type: 'varchar',
+      type: "varchar",
       unique: true,
       nullable: true
     },
@@ -36,23 +54,23 @@ export const UserSchema = {
       // confirmed this email address was active and used by the user (e.g.
       // when an email sign in link is clicked on and verified). Is null
       // if the email address specified has never been verified.
-      type: 'timestamp',
+      type: "timestamp",
       nullable: true
     },
     image: {
       // A URL that points to an avatar to use for the user.
       // This is inherited from the one in the OAuth provider profile on
       // initial sign in, if one is specified in that profile.
-      type: 'varchar',
+      type: "varchar",
       nullable: true
     },
     createdAt: {
-      type: 'timestamp',
+      type: "timestamp",
       createDate: true
     },
     updatedAt: {
-      type: 'timestamp',
+      type: "timestamp",
       updateDate: true
     }
   }
-}
+};

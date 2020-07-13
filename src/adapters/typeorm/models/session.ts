@@ -1,50 +1,61 @@
-import { randomBytes } from 'crypto'
+import { randomBytes } from "crypto";
+export interface Session {
+  userId: number; // | ObjectId
+  expires: Date;
+  sessionToken: string;
+  accessToken: string;
+}
 
 export class Session {
-  constructor (userId, expires, sessionToken, accessToken) {
-    this.userId = userId
-    this.expires = expires
-    this.sessionToken = sessionToken || randomBytes(32).toString('hex')
-    this.accessToken = accessToken || randomBytes(32).toString('hex')
+  constructor(
+    userId: number,
+    expires: Date,
+    sessionToken: string,
+    accessToken: string
+  ) {
+    this.userId = userId;
+    this.expires = expires;
+    this.sessionToken = sessionToken || randomBytes(32).toString("hex");
+    this.accessToken = accessToken || randomBytes(32).toString("hex");
   }
 }
 
 export const SessionSchema = {
-  name: 'Session',
+  name: "Session",
   target: Session,
   columns: {
     id: {
       // This property has `objectId: true` instead of `type: int` in MongoDB
       primary: true,
-      type: 'int',
+      type: "int",
       generated: true
     },
     userId: {
       // This property is set to `type: objectId` on MongoDB databases
-      type: 'int'
+      type: "int"
     },
     expires: {
       // The date the session expires (is updated when a session is active)
-      type: 'timestamp'
+      type: "timestamp"
     },
     sessionToken: {
       // The sessionToken should never be exposed to client side JavaScript
-      type: 'varchar',
+      type: "varchar",
       unique: true
     },
     accessToken: {
       // The accessToken can be safely exposed to client side JavaScript to
       // to identify the owner of a session without exposing the sessionToken
-      type: 'varchar',
+      type: "varchar",
       unique: true
     },
     createdAt: {
-      type: 'timestamp',
+      type: "timestamp",
       createDate: true
     },
     updatedAt: {
-      type: 'timestamp',
+      type: "timestamp",
       updateDate: true
     }
   }
-}
+};

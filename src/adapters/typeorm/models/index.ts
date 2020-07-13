@@ -1,7 +1,10 @@
-import { Account, AccountSchema } from './account'
-import { User, UserSchema } from './user'
-import { Session, SessionSchema } from './session'
-import { VerificationRequest, VerificationRequestSchema } from './verification-request'
+import { Account, AccountSchema } from "./account";
+import { User, UserSchema } from "./user";
+import { Session, SessionSchema } from "./session";
+import {
+  VerificationRequest,
+  VerificationRequestSchema
+} from "./verification-request";
 
 export default {
   Account: {
@@ -20,4 +23,4 @@ export default {
     model: VerificationRequest,
     schema: VerificationRequestSchema
   }
-}
+};

@@ -1,12 +1,16 @@
 {
   "presets": [
-    ["@babel/preset-env", { "targets": { "esmodules": true } } ]
+    [
+      "@babel/preset-env",
+      { "targets": { "esmodules": true } },
+      "@babel/preset-typescript"
+    ]
   ],
   "comments": false,
   "overrides": [
     {
-      "test": [ "./src/server/pages/**" ],
-      "presets": [ "preact" ]
+      "test": ["./src/server/pages/**"],
+      "presets": ["preact"]
     }
   ]
 }

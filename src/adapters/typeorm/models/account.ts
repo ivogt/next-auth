@@ -1,94 +1,105 @@
-import { createHash } from 'crypto'
-
+import { createHash } from "crypto";
+export interface Account {
+  userId: number;
+  compoundId: string;
+  providerId: string;
+  providerType: string;
+  providerAccountId: number;
+  refreshToken: string;
+  accessToken: string;
+  accessTokenExpires: Date;
+}
 export class Account {
-  constructor (
-    userId,
-    providerId,
-    providerType,
-    providerAccountId,
-    refreshToken,
-    accessToken,
-    accessTokenExpires
+  constructor(
+    userId: number,
+    providerId: string,
+    providerType: string,
+    providerAccountId: number,
+    refreshToken: string,
+    accessToken: string,
+    accessTokenExpires: Date
   ) {
     // The compound ID ensures there is only one entry for a given provider and account
-    this.compoundId = createHash('sha256').update(`${providerId}:${providerAccountId}`).digest('hex')
-    this.userId = userId
-    this.providerType = providerType
-    this.providerId = providerId
-    this.providerAccountId = providerAccountId
-    this.refreshToken = refreshToken
-    this.accessToken = accessToken
-    this.accessTokenExpires = accessTokenExpires
+    this.compoundId = createHash("sha256")
+      .update(`${providerId}:${providerAccountId}`)
+      .digest("hex");
+    this.userId = userId;
+    this.providerType = providerType;
+    this.providerId = providerId;
+    this.providerAccountId = providerAccountId;
+    this.refreshToken = refreshToken;
+    this.accessToken = accessToken;
+    this.accessTokenExpires = accessTokenExpires;
   }
 }
 
 export const AccountSchema = {
-  name: 'Account',
+  name: "Account",
   target: Account,
   columns: {
     id: {
       // This property has `objectId: true` instead of `type: int` in MongoDB
       primary: true,
-      type: 'int',
+      type: "int",
       generated: true
     },
     compoundId: {
       // The compound ID ensures that there there is only one instance of an
       // OAuth account in a way that works across different databases.
       // It is not used for anything else.
-      type: 'varchar',
+      type: "varchar",
       unique: true
     },
     userId: {
       // This property is set to `type: objectId` on MongoDB databases
-      type: 'int'
+      type: "int"
     },
     providerType: {
-      type: 'varchar'
+      type: "varchar"
     },
     providerId: {
-      type: 'varchar'
+      type: "varchar"
     },
     providerAccountId: {
-      type: 'varchar'
+      type: "varchar"
     },
     refreshToken: {
-      type: 'text',
+      type: "text",
       nullable: true
     },
     accessToken: {
       // AccessTokens are not (yet) automatically rotated by NextAuth.js
       // You can update it using the refreshToken and the accessTokenUrl endpoint for the provider
-      type: 'text',
+      type: "text",
       nullable: true
     },
     accessTokenExpires: {
       // AccessTokens expiry times are not (yet) updated by NextAuth.js
       // You can update it using the refreshToken and the accessTokenUrl endpoint for the provider
-      type: 'timestamp',
+      type: "timestamp",
       nullable: true
     },
     createdAt: {
-      type: 'timestamp',
+      type: "timestamp",
       createDate: true
     },
     updatedAt: {
-      type: 'timestamp',
+      type: "timestamp",
       updateDate: true
     }
   },
   indices: [
     {
-      name: 'userId',
-      columns: ['userId']
+      name: "userId",
+      columns: ["userId"]
     },
     {
-      name: 'providerId',
-      columns: ['providerId']
+      name: "providerId",
+      columns: ["providerId"]
     },
     {
-      name: 'providerAccountId',
-      columns: ['providerAccountId']
+      name: "providerAccountId",
+      columns: ["providerAccountId"]
     }
   ]
-}
+};
